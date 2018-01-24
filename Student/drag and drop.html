@@ -1,0 +1,71 @@
+<html>  
+      <head>  
+           <title>Drag and drop </title>  
+           <script src="jquery.js"></script>  
+           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+           <link rel="stylesheet" type="text/css" href="js.js">
+           <style>  
+           .file
+           {  
+                width:600px;  
+                height:400px;  
+                border:2px dashed #ccc;  
+                line-height:400px;  
+                text-align:center;  
+                font-size:24px;  
+           }  
+           .file{  
+                color:#000;  
+                border-color:#000000;  
+           }  
+           </style> 
+           <script>  
+ $(document).ready(function(){  
+      $('.file').on('dragover', function(){  
+           $(this).addClass('file');  
+           return false;  
+      });  
+      $('.file').on('dragleave', function(){  
+           $(this).removeClass('file');  
+           return false;  
+      });  
+      $('.file').on('drop', function(e){  
+           e.preventDefault();  
+           $(this).removeClass('file');  
+           var formData = new FormData();  
+           var files_list = e.originalEvent.dataTransfer.files;  
+             
+           for(var i=0; i<files_list.length; i++)  
+           {  
+                formData.append('file[]', files_list[i]);  
+           }  
+          
+           $.ajax({  
+                  
+                method:"POST",  
+                data:formData,  
+                contentType:false,  
+                cache: false,  
+                processData: false,  
+                success:function(data){  
+                     $('#uploaded_file').html(data);  
+                }  
+           })  
+      });  
+ });  
+ </script>  
+      </head>  
+      <body style="background-color:#E6E6FA">  
+           <br />            
+           <div class="container" style="width:700px;" align="center"> 
+            
+                <h3 class="text-center">Drag and drop file </h3><br />  
+                <div class="file">  
+                     Drop Files Here  
+                </div>  
+                <div id="uploaded_file"></div>  
+           </div>  
+           <br />  
+      </body>  
+ </html>  
+ 
